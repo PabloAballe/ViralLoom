@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Page Not Found - ViralLoom">
+  <Header />
+
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-20 flex flex-col items-center justify-center text-center space-y-6">
+    <div class="w-20 h-20 rounded-3xl bg-brand-500/10 border border-brand-500/20 text-brand-500 flex items-center justify-center text-4xl shadow-2xl">
+      🔍
+    </div>
+
+    <div class="space-y-2">
+      <h1 class="text-4xl font-extrabold text-white">404 - Page Not Found</h1>
+      <p class="text-gray-400 text-base max-w-md mx-auto">
+        The video or page you are looking for does not exist or has been moved. Explore our latest viral trends.
+      </p>
+    </div>
+
+    <a
+      href="/"
+      class="px-6 py-3 rounded-xl font-bold bg-brand-500 hover:bg-brand-600 text-white shadow-lg shadow-brand-500/30 transition-all hover:scale-105"
+    >
+      Back to Home
+    </a>
+  </main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,142 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import rawTendencias from '../../../tendencias.json';
+
+export async function getStaticPaths() {
+  const tendencias = Array.isArray(rawTendencias) ? rawTendencias : [];
+  return tendencias.map((video) => ({
+    params: { id: video.id },
+    props: { video },
+  }));
+}
+
+const { video } = Astro.props;
+
+if (!video) {
+  return Astro.redirect('/404');
+}
+
+const formattedViews = video.views.toLocaleString();
+const formattedVPH = video.vph.toLocaleString();
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": video.title,
+  "description": video.description || video.title,
+  "thumbnailUrl": [video.thumbnail],
+  "uploadDate": video.published_at,
+  "contentUrl": video.url,
+  "embedUrl": `https://www.youtube.com/embed/${video.id}`,
+  "interactionStatistic": {
+    "@type": "InteractionCounter",
+    "interactionType": { "@type": "WatchAction" },
+    "userInteractionCount": video.views
+  }
+};
+---
+
+<Layout
+  title={`${video.title} - VPH Analytics | ViralLoom`}
+  description={`Watch "${video.title}" by ${video.channel}. Detected with ${formattedVPH} VPH (Views Per Hour) and ${formattedViews} views.`}
+  image={video.thumbnail}
+  schemaJson={schemaJson}
+>
+  <Header currentCategory={video.category_slug} />
+
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-10 space-y-8">
+    
+    {/* Navigation Back */}
+    <div>
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 text-xs font-semibold text-gray-400 hover:text-white transition-colors bg-white/5 px-3 py-1.5 rounded-lg border border-white/10"
+      >
+        ← Back to Directory
+      </a>
+    </div>
+
+    {/* Main Video Frame & Details */}
+    <article class="glass-panel rounded-3xl p-6 sm:p-8 border border-white/10 space-y-6">
+      
+      {/* Video Embed */}
+      <div class="relative aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10">
+        <iframe
+          src={`https://www.youtube.com/embed/${video.id}?autoplay=1&mute=0`}
+          title={video.title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          class="w-full h-full border-0"
+        ></iframe>
+      </div>
+
+      {/* Header Info */}
+      <div class="space-y-4 pt-2">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          {/* Category Badge */}
+          <a
+            href={`/categoria/${video.category_slug}`}
+            class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20"
+          >
+            {video.category}
+          </a>
+
+          {/* VPH Badge */}
+          <div class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-black bg-gradient-to-r from-brand-600 to-amber-500 text-white shadow-lg shadow-brand-500/20 border border-white/20">
+            <span>🔥 {formattedVPH} Views/Hour (VPH)</span>
+          </div>
+        </div>
+
+        <h1 class="text-xl sm:text-3xl font-extrabold text-white leading-tight">
+          {video.title}
+        </h1>
+
+        <div class="flex flex-wrap items-center justify-between text-sm text-gray-400 gap-4 pt-2 border-t border-white/10">
+          <div class="flex items-center gap-2">
+            <span class="text-gray-500">Channel:</span>
+            <span class="font-bold text-white">{video.channel}</span>
+          </div>
+
+          <div class="flex items-center gap-6">
+            <div>
+              <span class="text-gray-500">Total Views:</span>{' '}
+              <strong class="text-gray-200">{formattedViews}</strong>
+            </div>
+            <div>
+              <span class="text-gray-500">Published:</span>{' '}
+              <strong class="text-gray-200">{video.published_relative}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Description Box */}
+      {video.description && (
+        <div class="bg-black/30 rounded-2xl p-5 border border-white/5 space-y-2">
+          <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Video Overview</h3>
+          <p class="text-sm text-gray-300 leading-relaxed whitespace-pre-line">
+            {video.description}
+          </p>
+        </div>
+      )}
+
+      {/* External Action Button */}
+      <div class="pt-4 flex items-center justify-end">
+        <a
+          href={video.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold bg-brand-500 hover:bg-brand-600 text-white shadow-lg shadow-brand-500/30 transition-all hover:scale-[1.02]"
+        >
+          <span>Watch directly on YouTube</span>
+          <span>↗</span>
+        </a>
+      </div>
+    </article>
+
+  </main>
+
+  <Footer />
+</Layout>

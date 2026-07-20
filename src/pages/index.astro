@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { VideoGrid } from '../components/VideoGrid';
+import rawTendencias from '../../tendencias.json';
+
+const tendencias = Array.isArray(rawTendencias) ? rawTendencias : [];
+
+const useCases = [
+  {
+    icon: "📹",
+    title: "Content Creators",
+    description: "Spot exploding video ideas, titles, and hooks before they go mainstream to ride the viral wave early.",
+    badge: "For Creators"
+  },
+  {
+    icon: "🚀",
+    title: "Indie Hackers & Founders",
+    description: "Discover emerging tech tools, micro-SaaS demands, and developer trends with proven audience interest.",
+    badge: "For Founders"
+  },
+  {
+    icon: "📈",
+    title: "Growth Marketers",
+    description: "Identify high-velocity topics to produce rapid TikToks, Reels, Shorts, and affiliate campaigns.",
+    badge: "For Marketers"
+  },
+  {
+    icon: "🔎",
+    title: "Trend Researchers",
+    description: "Track breakout channels and sudden surges in view velocity across tech, AI, and business niches.",
+    badge: "For Researchers"
+  }
+];
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "ViralLoom",
+  "url": Astro.url.origin,
+  "description": "Real-time viral video directory analyzed by Views Per Hour (VPH).",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": `${Astro.url.origin}/?q={search_term_string}`,
+    "query-input": "required name=search_term_string"
+  }
+};
+---
+
+<Layout schemaJson={schemaJson}>
+  <Header />
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+    
+    <!-- Hero Banner Section -->
+    <section class="text-center space-y-5 py-6">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand-500/10 text-brand-500 border border-brand-500/20 shadow-inner">
+        <span class="text-amber-400">🔥 VPH Algorithm Active</span>
+        <span class="text-gray-500">•</span>
+        <span>Updated Daily</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white max-w-4xl mx-auto leading-tight">
+        Discover <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-500 via-amber-400 to-amber-500">Emerging Viral Content</span> Before Anyone Else
+      </h1>
+
+      <p class="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+        We analyze view velocity (<strong class="text-white">Views Per Hour - VPH</strong>) in real-time to detect videos with high organic growth potential.
+      </p>
+
+      {/* Value Proposition Bar */}
+      <div class="pt-2 flex flex-wrap items-center justify-center gap-8 text-xs text-gray-400">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-brand-500"></div>
+          <span>Exclusive VPH Metric</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-amber-400"></div>
+          <span>Early Trend Detection</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+          <span>Daily Curation</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="space-y-6">
+      <div class="text-center space-y-2">
+        <h2 class="text-xs uppercase tracking-widest text-brand-500 font-extrabold">Built For High Performers</h2>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-white">How to leverage ViralLoom</h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {useCases.map((uc) => (
+          <div class="glass-card p-6 rounded-2xl border border-white/10 space-y-4 flex flex-col justify-between hover:border-brand-500/30 transition-all">
+            <div class="space-y-3">
+              <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl">
+                {uc.icon}
+              </div>
+              <div class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                {uc.badge}
+              </div>
+              <h4 class="text-base font-bold text-white">{uc.title}</h4>
+              <p class="text-xs text-gray-400 leading-relaxed">{uc.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Interactive Grid Section -->
+    <section class="pt-4">
+      <VideoGrid client:load initialVideos={tendencias} />
+    </section>
+
+  </main>
+
+  <Footer />
+</Layout>

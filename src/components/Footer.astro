@@ -1,0 +1,29 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="mt-auto border-t border-white/10 bg-[#060910] text-gray-400 text-sm py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="flex items-center gap-3">
+      <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-brand-600 to-amber-500 flex items-center justify-center text-white text-xs font-bold">
+        🔥
+      </div>
+      <div>
+        <span class="font-bold text-white">ViralLoom</span>
+        <p class="text-xs text-gray-500">VPH (Views Per Hour) metric for early trend detection.</p>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-gray-400">
+      <a href="/" class="hover:text-white transition-colors">Home</a>
+      <a href="/categoria/ai-tech" class="hover:text-white transition-colors">AI & Tech</a>
+      <a href="/categoria/development" class="hover:text-white transition-colors">Development</a>
+      <a href="/categoria/entrepreneurship" class="hover:text-white transition-colors">Entrepreneurship</a>
+      <a href="/sitemap.xml" class="hover:text-white transition-colors">Sitemap XML</a>
+    </div>
+
+    <div class="text-xs text-gray-500 text-center md:text-right">
+      <p>© {currentYear} ViralLoom. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
