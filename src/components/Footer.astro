@@ -1,5 +1,6 @@
 ---
 const currentYear = new Date().getFullYear();
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <footer class="mt-auto border-t border-white/10 bg-[#060910] text-gray-400 text-sm py-10">
@@ -15,11 +16,11 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-gray-400">
-      <a href="/" class="hover:text-white transition-colors">Home</a>
-      <a href="/categoria/ai-tech" class="hover:text-white transition-colors">AI & Tech</a>
-      <a href="/categoria/development" class="hover:text-white transition-colors">Development</a>
-      <a href="/categoria/entrepreneurship" class="hover:text-white transition-colors">Entrepreneurship</a>
-      <a href="/sitemap.xml" class="hover:text-white transition-colors">Sitemap XML</a>
+      <a href={baseUrl} class="hover:text-white transition-colors">Home</a>
+      <a href={`${baseUrl}categoria/ai-tech`} class="hover:text-white transition-colors">AI & Tech</a>
+      <a href={`${baseUrl}categoria/development`} class="hover:text-white transition-colors">Development</a>
+      <a href={`${baseUrl}categoria/entrepreneurship`} class="hover:text-white transition-colors">Entrepreneurship</a>
+      <a href={`${baseUrl}sitemap.xml`} class="hover:text-white transition-colors">Sitemap XML</a>
     </div>
 
     <div class="text-xs text-gray-500 text-center md:text-right">

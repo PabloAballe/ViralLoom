@@ -2,9 +2,13 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 
-// https://astro.build/config
+// GitHub Pages subpath support
+const site = process.env.SITE || 'https://PabloAballe.github.io';
+const base = process.env.GITHUB_ACTIONS ? '/ViralLoom/' : '/';
+
 export default defineConfig({
-  site: 'https://viralloom.pages.dev',
+  site,
+  base,
   integrations: [
     tailwind({
       applyBaseStyles: false,

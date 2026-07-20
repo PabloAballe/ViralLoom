@@ -10,6 +10,9 @@ export const ViralCard: React.FC<ViralCardProps> = ({ video }) => {
   const [imgSrc, setImgSrc] = useState(video.thumbnail);
   const [imgError, setImgError] = useState(false);
 
+  // Read BASE_URL dynamically or fallback to '/'
+  const baseUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || '/';
+
   const formatViews = (num: number) => {
     if (num >= 1_000_000) {
       return (num / 1_000_000).toFixed(1) + 'M';
@@ -25,6 +28,9 @@ export const ViralCard: React.FC<ViralCardProps> = ({ video }) => {
       setImgSrc('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80');
     }
   };
+
+  const categoryUrl = `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}categoria/${video.category_slug}`;
+  const videoUrl = `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}video/${video.id}`;
 
   return (
     <div className="group relative glass-card rounded-2xl overflow-hidden flex flex-col h-full border border-white/10 hover:border-brand-500/40 transition-all duration-300">
@@ -51,7 +57,7 @@ export const ViralCard: React.FC<ViralCardProps> = ({ video }) => {
 
           {/* Category Badge */}
           <a
-            href={`/categoria/${video.category_slug}`}
+            href={categoryUrl}
             className="pointer-events-auto inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-black/60 backdrop-blur-md text-gray-300 border border-white/10 hover:bg-white/20 hover:text-white transition-colors"
           >
             <Tag className="w-3 h-3 text-amber-400" />
@@ -61,7 +67,7 @@ export const ViralCard: React.FC<ViralCardProps> = ({ video }) => {
 
         {/* Hover Quick Play Icon Overlay */}
         <a
-          href={`/video/${video.id}`}
+          href={videoUrl}
           className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]"
           title="View video details"
         >
@@ -81,7 +87,7 @@ export const ViralCard: React.FC<ViralCardProps> = ({ video }) => {
 
           {/* Video Title */}
           <h3 className="text-sm sm:text-base font-bold text-white line-clamp-2 leading-snug group-hover:text-amber-400 transition-colors">
-            <a href={`/video/${video.id}`}>
+            <a href={videoUrl}>
               {video.title}
             </a>
           </h3>
@@ -106,7 +112,7 @@ export const ViralCard: React.FC<ViralCardProps> = ({ video }) => {
           {/* Action Buttons */}
           <div className="flex items-center gap-2 pt-1">
             <a
-              href={`/video/${video.id}`}
+              href={videoUrl}
               className="flex-1 text-center py-2 px-3 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 text-gray-200 hover:text-white border border-white/10 transition-colors"
             >
               Details
